@@ -1,0 +1,72 @@
+[
+  {
+    "model": "products.product",
+    "pk": 18,
+    "fields": {
+      "name": "Harman/Kardon Aura Studio 4 Black",
+      "image": "image/harman_kardon_aura_studio.webp",
+      "price": 13000,
+      "created_at": "2025-06-28T14:58:44.378Z",
+      "categories": 5,
+      "specifications": [
+        {
+          "group": "Основні характеристики",
+          "items": [
+            {
+              "name": "Потужність",
+              "value": "130 Вт"
+            },
+            {
+              "name": "Бездротові можливості",
+              "value": "Bluetooth"
+            },
+            {
+              "name": "Колір",
+              "value": "Black"
+            }
+          ]
+        },
+        {
+          "group": "Матеріали та корпус",
+          "items": [
+            {
+              "name": "Матеріал корпуса",
+              "value": "Пластик"
+            },
+            {
+              "name": "Габарити",
+              "value": "283.6 × 232 × 232 мм"
+            }
+          ]
+        },
+        {
+          "group": "Живлення",
+          "items": [
+            {
+              "name": "Живлення",
+              "value": "Від мережі"
+            }
+          ]
+        },
+        {
+          "group": "Комплектація",
+          "items": [
+            {
+              "name": "Комплектація",
+              "value": "Harman Kardon Aura Studio 4, кабель живлення, короткий посібник, паспорт безпеки, гарантійний талон"
+            }
+          ]
+        },
+        {
+          "group": "Додатково",
+          "items": [
+            {
+              "name": "Гарантія",
+              "value": "12 місяців"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

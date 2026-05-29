@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+
+    <link href="{% static 'vendor/css/profile.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'vendor/css/settings_order_and_payment_forms.css' %}">
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- MENU -->
+    <div class="row mb-3">
+        <div class="col-12 fb-profile-block-menu"
+             style="background-color:#B22222; width:100%;">
+
+            <div class="d-flex justify-content-between align-items-center p-2">
+
+                <!-- LEFT MENU -->
+                <ul class="list-inline m-0">
+                    <li class="list-inline-item">
+                        <a href="{% url 'logout' %}" class="text-white">Выйти</a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a href="{% url 'home' %}" class="text-white">Главная</a>
+                    </li>
+                </ul>
+
+                <!-- RIGHT USER -->
+                <div class="text-white">
+                    username: {{ user.username }}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CART -->
+    <table id="cart" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th class="text-center">Сумма</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for product in items_with_total %}
+        <tr>
+
+            <td>
+                <div class="d-flex align-items-center">
+
+                    <div class="mr-3 d-none d-sm-block">
+                        <a href="{% url 'product_detail' product.item.product.id %}">
+                            <img src="{{ product.item.product.image.url }}"
+                                 width="120">
+                        </a>
+                    </div>
+
+                    <div>
+                        <strong>{{ product.item.product.name }}</strong>
+                        <div class="text-muted small">
+                            {{ product.item.product.description }}
+                        </div>
+                    </div>
+
+                </div>
+            </td>
+
+            <td style="border-left:1px solid #ddd; padding-left:15px; font-weight:bold;">
+                {{ product.item.product.price|floatformat:0|intcomma }} грн
+            </td>
+
+            <td class="text-center">{{ product.item.quantity }}</td>
+
+            <td class="text-center">
+                {{ product.total_price|floatformat:0|intcomma }} грн
+            </td>
+
+            <td>
+                <form action="{% url 'del_cart' product.item.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                </form>
+            </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <td>
+                <a href="{% url 'home' %}" class="btn btn-dark">
+                    Продолжить покупки
+                </a>
+            </td>
+
+            <td colspan="2"></td>
+
+            <td class="text-center">
+                <strong>Итого: {{ total_sum|floatformat:0|intcomma }} грн</strong>
+            </td>
+        </tr>
+        </tfoot>
+
+    </table>
+
+    <form method="post" action="{% url 'create_order' %}">
+        {% csrf_token %}
+        <div class="checkout-wrapper">
+            <!-- смещаем форму в лево -->
+            <div class="left-block">
+                {% include "orders/order.html" %}
+            </div>
+
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

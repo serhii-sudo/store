@@ -1,0 +1,109 @@
+{% load humanize %}
+<div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">DEVICES</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+            aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Выйти</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'user_basket' %}">Корзина</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    История
+                </a>
+
+                <ul class="dropdown-menu">
+
+                    {% for order in navbar_orders %}
+                    <li>
+                        <h6 class="dropdown-header">
+                            Заказ #{{ order.pk }} | {{ order.created|date:"d.m.Y H:i" }}
+                        </h6>
+                    </li>
+
+                    {% for item in order.history %}
+                    <li>
+                    <span class="dropdown-item">
+                        {{ item.product_name }} |
+                        {{ item.quantity }} × {{ item.price|floatformat:0|intcomma }} грн
+                    </span>
+                    </li>
+                    {% endfor %}
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    {% empty %}
+                    <li>
+                        <span class="dropdown-item">Нет заказов</span>
+                    </li>
+                    {% endfor %}
+
+                    <li>
+                        <a class="dropdown-item text-center" href="{% url 'history' %}">
+                            Вся история
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'registration' %}">Регистрация</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'authorization' %}">Авторизация</a>
+            </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    Категории
+                </a>
+                <ul class="dropdown-menu">
+                    {% for cat in category %}
+                    <li><a class="dropdown-item" href="{% url 'all_products' cat.name %}">{{cat.name}}</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    Контакты
+                </a>
+                <ul class="dropdown-menu">
+
+                    <li>
+                        <a class="dropdown-item">
+                            <ul>г. Киев, ул. Борычев спуск, дом 9, офис 2</ul>
+                            <ul>тел: (097)0028825</ul>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                </ul>
+            </li>
+
+        </ul>
+        <form class="d-flex" role="search" method="get" action="{% url 'home' %}">
+            <input class="form-control me-2" type="search" placeholder="запрос.." aria-label="Search" name="search"
+                   value="{{search_query}}">
+            <button class="btn btn-dark" type="submit">Поиск</button>
+        </form>
+
+    </div>
+
+</div>

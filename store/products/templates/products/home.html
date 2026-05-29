@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'vendor/css/grid.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+<div id="message-box" class="fade-out-message">
+    {% for message in messages %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="grid-container">
+    {% for i in products %}
+    <div class="card">
+        <a href="{% url 'product_detail' i.id %}"><img src="{{ i.image.url }}" width="210" height="100%"></a>
+        <div class="card-content">
+            <div class="card-title">{{ i.name }}</div>
+            <div class="card-description">{{ i.specifications.0.group|truncatewords:10 }}</div>
+            <div class="card-price">{{ i.price|floatformat:0|intcomma }} грн</div>
+            {% if user.is_authenticated %}
+                <form action="{% url 'add_to_cart' i.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-dark btn-sm">Добавить корзину</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+

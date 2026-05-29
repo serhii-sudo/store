@@ -1,0 +1,39 @@
+.contacts {
+  width: 375px;
+  max-height: 528px;
+  margin-right: 0;
+}
+
+.contacts-list {
+  didplay: flex;
+  width: 375px;
+}
+
+.contact-list-item {
+  display: flex;
+  justify-content: space-between;
+  max-width: 375px;
+  border-bottom: 1px solid #C4C4C4;
+  max-height: 146px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+}
+
+.contacts-header {
+display: inline-block;
+margin: 0;
+margin-right: 145px;
+min-width: 98px;
+margin-right: 47px;
+}
+
+.contact-list-link {
+font-style: normal;
+font-weight: normal;
+padding-top: 0px;
+}
+
+.list-name-descr {
+  line-height: 150%;
+  margin: 0;
+}

@@ -1,0 +1,18 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<footer class="footer">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="mb-0">&copy; Все права защищены. {% now "DATETIME_FORMAT" %}</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <div class="social-icons">
+                    <a href="{% url 'telegram_start' %}" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" aria-label="Google"><i class="fab fa-google"></i></a>
+                    <a href="https://www.spotify.com/ua-uk/free/" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
