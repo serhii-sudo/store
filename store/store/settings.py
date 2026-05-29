@@ -61,7 +61,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 #  for fixtures loaddata, YAML format
 SERIALIZATION_MODULES = {
     "yaml": "django.core.serializers.pyyaml",
@@ -105,6 +104,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "REDIS_PASSWORD": os.getenv("REDIS_PASSWORD"),
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -124,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 "GOOGLE AUTH"
 AUTHENTICATION_BACKENDS = ("social_core.backends.google.GoogleOAuth2", "django.contrib.auth.backends.ModelBackend")
 
@@ -134,7 +139,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -157,12 +161,9 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"  # абсолютный путь
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-
 # LIQPAY
 LIQPAY_PUBLIC_KEY = os.getenv("LIQPAY_PUBLIC_KEY")
 LIQPAY_PRIVATE_KEY = os.getenv("LIQPAY_PRIVATE_KEY")
-
-
 
 AUTH_USER_MODEL = "user.CustomUser"  # делаем класс базовым, заменяя наш предыдущий базовый класс юзер
 
