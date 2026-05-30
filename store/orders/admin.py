@@ -8,7 +8,7 @@ class PaymentAdmin(admin.ModelAdmin):
         "provider", "payment_id", "transaction_id",
         "status", "amount",
         "created_at", "paid_at",
-        "get_username", "get_address",
+        "get_username", "get_address", "get_mobile"
     )
 
     """
@@ -20,6 +20,9 @@ class PaymentAdmin(admin.ModelAdmin):
 
     def get_address(self, obj):
         return obj.order.address
+
+    def get_mobile(self, obj):
+        return obj.order.mobile
 
 
 admin.site.register(Payment, PaymentAdmin)

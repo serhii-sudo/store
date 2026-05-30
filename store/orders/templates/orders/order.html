@@ -6,34 +6,48 @@
             <b>Заполните форму получение товара</b>
 
             <div class="mb-2">
-                 <label for="{{ form.username.id_for_label }}"></label>
-                 {{form.username}}
+                <label>username</label>
+                <label for="{{ form.username.id_for_label }}"></label>
+                {{form.username}}
             </div>
 
             <div class="mb-2">
-                 <label for="{{ form.email.id_for_label }}"></label>
+                <label>email</label>
+                <label for="{{ form.email.id_for_label }}"></label>
                 {{ form.email }}
             </div>
 
             <div class="mb-2">
+                <label>first name</label>
                 <label for="{{ form.first_name.id_for_label }}"></label>
                 {{ form.first_name }}
             </div>
 
             <div class="mb-2">
-               <label for="{{ form.last_name.id_for_label }}"></label>
+                <label>last name</label>
+                <label for="{{ form.last_name.id_for_label }}"></label>
                 {{ form.last_name }}
             </div>
 
             <div class="mb-2">
+                <label>address</label>
                 <label for="{{ form.address.id_for_label }}"></label>
                 {{ form.address }}
             </div>
 
+            <div class="mb-2">
+                <label>mobile</label>
+
+                <div class="input-group w-100">
+                    <span class="input-group-text">+38</span>
+                    <input type="text" name="mobile" class="form-control">
+                </div>
+            </div>
+
             <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" checked>
+                <input type="checkbox">
                 <label class="form-check-label">
-                    Save details for fast payments
+                    save details for fast payments
                 </label>
             </div>
 
