@@ -24,7 +24,6 @@ class OrderForm(forms.ModelForm):
         """
 
         mobile = forms.CharField(
-            initial="+38",
             widget=forms.TextInput(attrs={
                 'class': 'form-control w-100',
                 'placeholder': 'XXXXXXXXXX'
