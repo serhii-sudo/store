@@ -1,21 +1,14 @@
-from django.core.validators import RegexValidator
 from django.db import models
 from user.models import CustomUser
 
 
-# Order
 class Order(models.Model):
     email = models.EmailField(max_length=150)
     username = models.CharField(max_length=150)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     address = models.CharField(max_length=150)
-    mobile = models.CharField(
-        blank=False,
-        null=False,
-        max_length=13,
-        validators=[RegexValidator(regex=r'^\+38\d{10}$',  message='Введите 10 цифр номера')],
-    )
+    mobile = models.CharField(blank=False, null=False, max_length=13)
     checkbox = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     history = models.JSONField(default=dict)
@@ -34,10 +27,13 @@ class PaymentStatus(models.TextChoices):
     PAID = "paid", "Paid"
     FAILED = "failed", "Failed"
 
+
 """
 Через какого провайдера оплатили? У нас 1 провайдер, но мы оставим возможность масштабирование в будущем,
 для других провайдеров
 """
+
+
 class PaymentProvider(models.TextChoices):
     LIQPAY = "liqpay", "LiqPay"
 
@@ -79,7 +75,6 @@ class Payment(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-
 
     def __str__(self):
         return f"{self.order.id} | {self.amount} UAH | {self.status}"

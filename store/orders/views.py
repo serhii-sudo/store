@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import View
@@ -21,7 +21,7 @@ class OrderUser(View):
     def post(self, request):
         print(request.POST)
         form = OrderForm(request.POST)
-
+        print(form.errors)
         if form.is_valid():
             order = form.save(commit=False)
             order.initiator = request.user
@@ -45,7 +45,9 @@ class OrderUser(View):
             basket_items.delete()
             order.save()
 
-        return redirect("create_payment", order.id)
+            return redirect("create_payment", order.id)
+
+        return render(request, "basket/user_basket.html", {"form": form})
 
 
 # читаем данные заказа из Order
@@ -83,8 +85,8 @@ def create_payment(request, order_id):
         "description": f"Order # {order.pk} | {order.initiator.username}",
         "order_id": payment.payment_id,
         # изменяем каждый раз здесь, и в settings!
-        "result_url": "https://ae79-37-57-235-224.ngrok-free.app",
-        "server_url": "https://ae79-37-57-235-224.ngrok-free.app/orders/payment/callback/",
+        "result_url": "https://a3f1-37-57-235-224.ngrok-free.app ",
+        "server_url": "https://a3f1-37-57-235-224.ngrok-free.app/orders/payment/callback/",
     }
 
     json_data = json.dumps(data)

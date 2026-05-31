@@ -24,6 +24,12 @@ class OrderForm(forms.ModelForm):
         """
 
         mobile = forms.CharField(
+            validators=[
+                RegexValidator(
+                    regex=r'^\+380\d{9}$',
+                    message='Введите номер в формате 675091213'
+                )
+            ],
             widget=forms.TextInput(attrs={
                 'class': 'form-control w-100',
                 'placeholder': 'XXXXXXXXXX'
@@ -50,3 +56,8 @@ class OrderForm(forms.ModelForm):
                 'class': 'form-control mb-2'
             }),
         }
+
+#  валидируем поле mobile, и записываем его в бд, с префиксом +380
+
+    def clean_mobile(self):
+        return '+380' + self.cleaned_data['mobile']
