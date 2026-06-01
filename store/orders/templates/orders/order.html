@@ -6,20 +6,17 @@
             <b>Заполните форму получение товара</b>
 
             <div class="mb-2">
-                <label>username</label>
-                <label for="{{ form.username.id_for_label }}"></label>
+                <label for="{{ form.username.id_for_label }}">username</label>
                 {{form.username}}
             </div>
 
             <div class="mb-2">
-                <label>email</label>
-                <label for="{{ form.email.id_for_label }}"></label>
+                <label for="{{ form.email.id_for_label }}">email</label>
                 {{ form.email }}
             </div>
 
             <div class="mb-2">
-                <label>first name</label>
-                <label for="{{ form.first_name.id_for_label }}"></label>
+                <label for="{{ form.first_name.id_for_label }}">first name</label>
                 {{ form.first_name }}
             </div>
 
@@ -30,18 +27,21 @@
             </div>
 
             <div class="mb-2">
-                <label>address</label>
-                <label for="{{ form.address.id_for_label }}"></label>
+                <label for="{{ form.address.id_for_label }}">address</label>
                 {{ form.address }}
             </div>
 
             <div class="mb-2">
                 <label>mobile</label>
-
                 <div class="input-group w-100">
                     <span class="input-group-text">+380</span>
-                    <input type="text" name="mobile" class="form-control">
+<!--                    применяем ручной input чтобы не искажать 1/n часть поля в котором префикс +380-->
+                    <input type="text" name="mobile" class="form-control" placeholder="678883323">
                 </div>
+            </div>
+
+            <div class="text-danger mt-1">
+                {{ form.mobile.errors }}
             </div>
 
             <div class="form-check mb-3">

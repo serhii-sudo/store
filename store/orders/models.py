@@ -8,7 +8,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     address = models.CharField(max_length=150)
-    mobile = models.CharField(blank=False, null=False, max_length=13)
+    mobile = models.CharField(blank=False, null=False, max_length=20)
     checkbox = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     history = models.JSONField(default=dict)

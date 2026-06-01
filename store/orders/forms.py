@@ -1,6 +1,4 @@
 from django import forms
-from django.core.validators import RegexValidator
-
 from orders.models import Order
 
 
@@ -9,55 +7,59 @@ class OrderForm(forms.ModelForm):
         model = Order
         exclude = ('created', 'history', 'initiator')
 
-        """
-        forms.CharField = полный контроль поля
-        mobile - поле, вынесли отдельно, и обработали через forms.CharField. Так как надо контролировать поведение,
-            а именно:
-            - валидацию
-            - очистка  clean()
-            - типы данных
-                
-        Meta.widgets = контроль только внешнего вида полей. Обычное отображение.
-            - placeholder
-            - readonly
-            - style                                        
-        """
 
-        mobile = forms.CharField(
-            validators=[
-                RegexValidator(
-                    regex=r'^\+380\d{9}$',
-                    message='Введите номер в формате 675091213'
-                )
-            ],
-            widget=forms.TextInput(attrs={
-                'class': 'form-control w-100',
-                'placeholder': 'XXXXXXXXXX'
-            })
-        )
+    # username (readonly)
+    username = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control mb-2',
+            'readonly': 'readonly'
+        })
+    )
 
-        widgets = {
+    # email
+    email = forms.EmailField(
+        required=True,
+        max_length=150,
+        min_length=5,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control mb-2'
+        })
+    )
 
-            'username': forms.TextInput(attrs={
-                'class': 'form-control mb-2',
-                'readonly': 'readonly'
-            }),
+    # first_name
+    first_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control mb-2'
+        })
+    )
 
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control mb-2'
-            }),
-            'first_name': forms.TextInput(attrs={
-                'class': 'form-control mb-2'
-            }),
-            'last_name': forms.TextInput(attrs={
-                'class': 'form-control mb-2'
-            }),
-            'address': forms.TextInput(attrs={
-                'class': 'form-control mb-2'
-            }),
-        }
+    # last_name
+    last_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control mb-2'
+        })
+    )
 
-#  валидируем поле mobile, и записываем его в бд, с префиксом +380
+    # address
+    address = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control mb-2'
+        })
+    )
+
+    # mobile
+    mobile = forms.CharField(required=True)
+
+    # валидируем поле mobile, и записываем его в бд, с префиксом +380
 
     def clean_mobile(self):
-        return '+380' + self.cleaned_data['mobile']
+        mobile = ''.join(self.cleaned_data['mobile'].split())
+
+        if not mobile.isdigit() or len(mobile) != 9:
+            raise forms.ValidationError('Номер должен содержать 9 цифр')
+
+        return '+380' + mobile
