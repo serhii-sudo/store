@@ -11,4 +11,3 @@ class TelegramAuth(models.Model):
     telegram_id = models.BigIntegerField(null=True, blank=True)
     is_used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-

@@ -1,7 +1,6 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from django.views.generic import TemplateView
 
 from products.models import Product, Category
 
@@ -57,10 +56,7 @@ class GetAllProductsByCategories(View):
 
         categories = Category.objects.all()
 
-        return render(request, self.template_path, {
-            "products": page_object,
-            "category": categories
-        })
+        return render(request, self.template_path, {"products": page_object, "category": categories})
 
 
 class ProductDetail(View):
@@ -69,7 +65,4 @@ class ProductDetail(View):
     def get(self, request, id):
         categories = Category.objects.all()
         product_detail = get_object_or_404(Product, id=id)
-        return render(request, self.template_path, {
-            "product_detail": product_detail,
-            "category": categories
-        })
+        return render(request, self.template_path, {"product_detail": product_detail, "category": categories})

@@ -1,8 +1,7 @@
 import random
-import time
 from datetime import timedelta
 
-from django.contrib import auth, messages
+from django.contrib import auth
 from django.contrib.auth import login, logout
 
 from django.http import HttpResponseRedirect, JsonResponse
@@ -84,10 +83,7 @@ def telegram_start(request):
     TelegramAuth.objects.create(code=code)
 
     form = TelegramUserConfirmCode(initial={"code": code})
-    return render(request, "user/telegram_wait.html", context={
-        "form": form,
-        "code": code
-    })
+    return render(request, "user/telegram_wait.html", context={"form": form, "code": code})
 
 
 def telegram_check(request):
@@ -113,6 +109,6 @@ def telegram_check(request):
     if not user:
         return JsonResponse({"status": "pending"})
 
-    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    login(request, user, backend="django.contrib.auth.backends.ModelBackend")
 
     return JsonResponse({"status": "ok"})

@@ -18,7 +18,7 @@ class Order(models.Model):
         return f"Order # {self.pk}: {self.username}, {self.email} {self.mobile}"
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]
 
 
 # Статус оплаты
@@ -40,41 +40,22 @@ class PaymentProvider(models.TextChoices):
 
 # LiqPay
 class Payment(models.Model):
-    order = models.ForeignKey(
-        Order,
-        on_delete=models.CASCADE,
-        related_name="payments"
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payments")
 
-    provider = models.CharField(
-        max_length=20,
-        choices=PaymentProvider,
-        default=PaymentProvider.LIQPAY
-    )
+    provider = models.CharField(max_length=20, choices=PaymentProvider, default=PaymentProvider.LIQPAY)
 
-    payment_id = models.CharField(
-        max_length=64,
-        unique=True
-    )
+    payment_id = models.CharField(max_length=64, unique=True)
 
-    transaction_id = models.CharField(
-        max_length=128,
-        null=True,
-        blank=True
-    )
+    transaction_id = models.CharField(max_length=128, null=True, blank=True)
 
-    status = models.CharField(
-        max_length=20,
-        choices=PaymentStatus,
-        default=PaymentStatus.PENDING
-    )
+    status = models.CharField(max_length=20, choices=PaymentStatus, default=PaymentStatus.PENDING)
 
     amount = models.DecimalField(decimal_places=2, max_digits=9)
     created_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"{self.order.id} | {self.amount} UAH | {self.status}"

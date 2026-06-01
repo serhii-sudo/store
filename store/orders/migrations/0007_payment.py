@@ -25,9 +25,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "provider",
-                    models.CharField(
-                        choices=[("liqpay", "LiqPay")], default="liqpay", max_length=20
-                    ),
+                    models.CharField(choices=[("liqpay", "LiqPay")], default="liqpay", max_length=20),
                 ),
                 ("payment_id", models.CharField(max_length=64, unique=True)),
                 (

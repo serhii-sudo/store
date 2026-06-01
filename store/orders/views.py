@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.views import View
@@ -12,7 +12,10 @@ from orders.models import Order
 
 from django.shortcuts import get_object_or_404, redirect
 from django.conf import settings
-import json, base64, hashlib, uuid
+import json
+import base64
+import hashlib
+import uuid
 
 from .models import Payment, PaymentStatus
 
@@ -55,25 +58,17 @@ class OrderHistory(View):
     def get(self, request):
         orders = Order.objects.filter(initiator=request.user)
 
-        return render(request, {
-            "orders": orders
-        })
+        return render(request, {"orders": orders})
 
 
 # Тестовая оплата
 def create_payment(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
-    order_total = sum(
-        Decimal(item["price"]) * item["quantity"]
-        for item in order.history
-    )
+    order_total = sum(Decimal(item["price"]) * item["quantity"] for item in order.history)
 
     payment = Payment.objects.create(
-        order=order,
-        payment_id=str(uuid.uuid4()),
-        amount=order_total,
-        status=PaymentStatus.PENDING
+        order=order, payment_id=str(uuid.uuid4()), amount=order_total, status=PaymentStatus.PENDING
     )
 
     data = {
@@ -93,14 +88,10 @@ def create_payment(request, order_id):
     encoded_data = base64.b64encode(json_data.encode()).decode()
 
     signature = base64.b64encode(
-        hashlib.sha1(
-            (settings.LIQPAY_PRIVATE_KEY + encoded_data + settings.LIQPAY_PRIVATE_KEY)
-            .encode()
-        ).digest()
+        hashlib.sha1((settings.LIQPAY_PRIVATE_KEY + encoded_data + settings.LIQPAY_PRIVATE_KEY).encode()).digest()
     ).decode()
 
     return redirect(f"https://www.liqpay.ua/api/3/checkout?data={encoded_data}&signature={signature}")
-
 
 
 @csrf_exempt

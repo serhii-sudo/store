@@ -30,9 +30,7 @@ class UserAuthorizationForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Password"}))
 
 
-
 class TelegramUserConfirmCode(forms.Form):
     code = forms.CharField(
-        max_length=6,
-        widget=forms.TextInput(attrs={"class": "form-control text-center", "readonly": "readonly"})
+        max_length=6, widget=forms.TextInput(attrs={"class": "form-control text-center", "readonly": "readonly"})
     )

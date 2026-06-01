@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from products.views import Home, GetAllProductsByCategories, ProductDetail
 

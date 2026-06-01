@@ -14,8 +14,7 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=9)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     categories = models.ForeignKey(to=Category, on_delete=models.PROTECT)  # on_delete=models.PROTECT - в продакшн!
-    specifications = models.JSONField(default=list,  blank=True)
-
+    specifications = models.JSONField(default=list, blank=True)
 
     class Meta:
         ordering = ["-created_at"]  # Упорядочивание по дате создания (самые новые первые)

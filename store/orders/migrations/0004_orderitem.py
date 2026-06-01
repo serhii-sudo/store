@@ -28,9 +28,7 @@ class Migration(migrations.Migration):
                 ("price", models.DecimalField(decimal_places=3, max_digits=9)),
                 (
                     "order",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="orders.order"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="orders.order"),
                 ),
                 (
                     "product",

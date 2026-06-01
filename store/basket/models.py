@@ -9,7 +9,8 @@ class Basket(models.Model):
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)  # удалился продукт - удалилась корзина!
     quantity = models.SmallIntegerField(default=0)  # изначальное количество товаров в корзине по умолчанию равно 0
     timestamp = models.DateTimeField(
-        auto_now_add=True)  # добавление автоматически даты и времени, когда был добавлен товар
+        auto_now_add=True
+    )  # добавление автоматически даты и времени, когда был добавлен товар
 
     def __str__(self):
         return (

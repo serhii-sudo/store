@@ -5,7 +5,7 @@ import django
 
 from asgiref.sync import sync_to_async
 from django.utils import timezone
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+from telegram.ext import ApplicationBuilder, CommandHandler
 
 # ------------------------
 # Django setup (ОБЯЗАТЕЛЬНО ВВЕРХУ)
@@ -38,17 +38,16 @@ async def start(update, context):
     print("code:", code)
 
     # 1. ищем код
-    obj = await sync_to_async(
-        TelegramAuth.objects.filter(code=code).first
-    )()
+    obj = await sync_to_async(TelegramAuth.objects.filter(code=code).first)()
 
     if not obj:
         await update.message.reply_text("Код не найден")
         return
 
     if timezone.now() - obj.created_at > timedelta(minutes=1):
-        await update.message.reply_text("Код устарел!!! Вернись на сайт, обновите страницу для генерации нового кода"
-                                        " и попробуй снова.")
+        await update.message.reply_text(
+            "Код устарел!!! Вернись на сайт, обновите страницу для генерации нового кода" " и попробуй снова."
+        )
         return
 
     # 2. помечаем использованным
@@ -57,11 +56,8 @@ async def start(update, context):
     await sync_to_async(obj.save)()
 
     # 3. создаём пользователя
-    user, created = await sync_to_async(
-        CustomUser.objects.get_or_create
-    )(
-        telegram_id=telegram_id,
-        defaults={"username": f"tg_{telegram_id}"}
+    user, created = await sync_to_async(CustomUser.objects.get_or_create)(
+        telegram_id=telegram_id, defaults={"username": f"tg_{telegram_id}"}
     )
 
     # 4. сохраняем

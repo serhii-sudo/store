@@ -7,7 +7,6 @@ urlpatterns = [
     path("registration/", UserRegistration.as_view(), name="registration"),
     path("authorization/", UserAuthorization.as_view(), name="authorization"),
     path("logout/", logout_view, name="logout"),
-    path("telegram/start/",telegram_start, name='telegram_start'),
+    path("telegram/start/", telegram_start, name="telegram_start"),
     path("telegram/check/", telegram_check, name="telegram_check"),
-
 ]

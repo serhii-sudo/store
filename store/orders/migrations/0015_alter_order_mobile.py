@@ -17,9 +17,7 @@ class Migration(migrations.Migration):
             field=models.CharField(
                 max_length=13,
                 validators=[
-                    django.core.validators.RegexValidator(
-                        message="Введите 9 цифр номера", regex="^\\+380\\d{13}$"
-                    )
+                    django.core.validators.RegexValidator(message="Введите 9 цифр номера", regex="^\\+380\\d{13}$")
                 ],
             ),
         ),

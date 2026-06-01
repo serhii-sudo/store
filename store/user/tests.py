@@ -59,7 +59,7 @@ class TestUserFormFields(TestCase):
 
         # testing the Google button
         self.assertContains(response, "Sign up with Google")
-        self.assertContains(response, 'google-oauth2')
+        self.assertContains(response, "google-oauth2")
         self.assertEqual(response.status_code, 200)
 
         # testing the Telegram button
@@ -75,7 +75,7 @@ class TestUserFormFields(TestCase):
         self.assertEqual(response.status_code, 200)
 
         self.assertContains(response, "Log in with Google")
-        self.assertContains(response, 'google-oauth2')
+        self.assertContains(response, "google-oauth2")
         self.assertEqual(response.status_code, 200)
 
         self.assertContains(response, "Log in with Telegram")
