@@ -1,10 +1,12 @@
 from decimal import Decimal
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from weasyprint import HTML
 
 from basket.models import Basket
 from orders.forms import OrderForm
@@ -53,12 +55,29 @@ class OrderUser(View):
         return render(request, "basket/user_basket.html", {"form": form})
 
 
-# читаем данные заказа из Order
-class OrderHistory(View):
+# pdf загрузка истории покупок пользователя
+class OrderHistoryPdf(View):
     def get(self, request):
-        orders = Order.objects.filter(initiator=request.user)
+        orders = Order.objects.filter(
+            initiator=request.user
+        ).order_by("-created")
 
-        return render(request, {"orders": orders})
+        html_string = render_to_string(
+            "orders/orders_pdf.html",
+            {
+                "orders": orders,
+                "user": request.user,
+            }
+        )
+
+        pdf = HTML(string=html_string).write_pdf()
+
+        response = HttpResponse(pdf, content_type="application/pdf")
+        response["Content-Disposition"] = (
+            'attachment; filename="orders_history.pdf"'
+        )
+
+        return response
 
 
 # Тестовая оплата
