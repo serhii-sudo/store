@@ -20,6 +20,7 @@ import hashlib
 import uuid
 
 from .models import Payment, PaymentStatus
+from .security import verify_liqpay_signature
 
 
 class OrderUser(View):
@@ -99,8 +100,8 @@ def create_payment(request, order_id):
         "description": f"Order # {order.pk} | {order.initiator.username}",
         "order_id": payment.payment_id,
         # изменяем каждый раз здесь, и в settings!
-        "result_url": "https://a3f1-37-57-235-224.ngrok-free.app ",
-        "server_url": "https://a3f1-37-57-235-224.ngrok-free.app/orders/payment/callback/",
+        "result_url": "https://32fc-37-57-235-224.ngrok-free.app",
+        "server_url": "https://32fc-37-57-235-224.ngrok-free.app/orders/payment/callback/",
     }
 
     json_data = json.dumps(data)
@@ -113,20 +114,27 @@ def create_payment(request, order_id):
     return redirect(f"https://www.liqpay.ua/api/3/checkout?data={encoded_data}&signature={signature}")
 
 
+"""
+    @csrf_exempt - декоратор, который отключает CSRF-защиту для конкретной view
+    используется только для внешних API/webhook (LiqPay, Stripe, PayPal) 
+    так как LIQPAY - это не браузер а сервер!!!    
+    без @csrf_exempt у тебя будет 403 CSRF error, для LiqPay callback он обязателен!
+    Callback (в платежах) — это когда чужой сервис сам звонит твоему серверу и сообщает результат операции
+"""
+
+
 @csrf_exempt
 def liqpay_callback(request):
-    print("request.method:", request.method)
-    print("request.body:", request.body)
-
     data = request.POST.get("data")
-    print("data:", data)
+    signature = request.POST.get("signature")
 
-    if not data:
-        return JsonResponse({"error": "no data"}, status=400)
+    if not data or not signature:
+        return JsonResponse({"error": "missing data"}, status=400)
+
+    if not verify_liqpay_signature(data, signature):
+        return JsonResponse({"error": "invalid signature"}, status=403)
 
     decoded = json.loads(base64.b64decode(data).decode())
-
-    print("decoded:", decoded)
 
     status = decoded.get("status")
     order_id = decoded.get("order_id")
@@ -135,16 +143,18 @@ def liqpay_callback(request):
     print("order_id:", order_id)
 
     payment = Payment.objects.get(payment_id=order_id)
+    print("DB payment before:", payment.status)
+    print("LiqPay status:", status)
 
     if status == "success":
         payment.status = PaymentStatus.PAID
         payment.paid_at = timezone.now()
     else:
         payment.status = PaymentStatus.FAILED
+        print("DB payment after change:", payment.status)
 
     payment.transaction_id = transaction_id
     payment.save()
-
-    print("status:", payment.status)
+    print("Saved payment status:", payment.status)
 
     return JsonResponse({"ok": True})
