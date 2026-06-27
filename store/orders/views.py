@@ -49,23 +49,19 @@ class OrderUser(View):
 # pdf загрузка истории покупок пользователя
 class OrderHistoryPdf(View):
     def get(self, request):
-        orders = Order.objects.filter(
-            initiator=request.user
-        ).order_by("-created")
+        orders = Order.objects.filter(initiator=request.user).order_by("-created")
 
         html_string = render_to_string(
             "orders/orders_pdf.html",
             {
                 "orders": orders,
                 "user": request.user,
-            }
+            },
         )
 
         pdf = HTML(string=html_string).write_pdf()
 
         response = HttpResponse(pdf, content_type="application/pdf")
-        response["Content-Disposition"] = (
-            'attachment; filename="orders_history.pdf"'
-        )
+        response["Content-Disposition"] = 'attachment; filename="orders_history.pdf"'
 
         return response

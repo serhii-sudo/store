@@ -14,6 +14,8 @@ from orders.models import Payment, PaymentStatus, Order
 from orders.security import verify_liqpay_signature
 from store import settings
 
+from orders.tasks.sms import send_order_sms
+
 
 def create_payment(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -76,18 +78,23 @@ def liqpay_callback(request):
     print("order_id:", order_id)
 
     payment = Payment.objects.get(payment_id=order_id)
-    print("DB payment before:", payment.status)
-    print("LiqPay status:", status)
 
-    if status == "success":
-        payment.status = PaymentStatus.PAID
-        payment.paid_at = timezone.now()
-    else:
-        payment.status = PaymentStatus.FAILED
-        print("DB payment after change:", payment.status)
+    # idempotency
+    if payment.status == PaymentStatus.PAID:
+        return JsonResponse({"ok": True})
 
     payment.transaction_id = transaction_id
+
+    if status != "success":
+        payment.status = PaymentStatus.FAILED
+        payment.save()
+        return JsonResponse({"ok": True})
+
+    # success flow
+    payment.status = PaymentStatus.PAID
+    payment.paid_at = timezone.now()
     payment.save()
-    print("Saved payment status:", payment.status)
+
+    send_order_sms.delay(payment.order.id)
 
     return JsonResponse({"ok": True})

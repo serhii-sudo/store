@@ -15,7 +15,7 @@ class Order(models.Model):
     initiator = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
-        return f"Order # {self.pk}: {self.username}, {self.email} {self.mobile}"
+        return f"Order # {self.pk}: {self.username}, {self.email}, {self.mobile}"
 
     class Meta:
         ordering = ["-created"]

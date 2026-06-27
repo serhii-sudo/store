@@ -22,6 +22,7 @@ def verify_liqpay_signature(data: str, signature: str) -> bool:
 
     return hmac.compare_digest(expected, signature)
 
+
 """ 
     hmac.compare_digest = защищённое сравнение строк без утечки времени
     время всегда одинаковое, независимо от совпадения
