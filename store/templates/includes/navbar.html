@@ -7,6 +7,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            {% include 'includes/settings.html' %}
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Выйти</a>
@@ -48,7 +49,8 @@
                     {% endfor %}
 
                     <li>
-                        <a class="dropdown-item text-center" href="{% url 'history_pdf' %}">Загрузить всю историю pdf</a>
+                        <a class="dropdown-item text-center" href="{% url 'history_pdf' %}">Загрузить всю историю
+                            pdf</a>
                     </li>
 
                 </ul>
@@ -88,14 +90,11 @@
                             <ul>тел: (097)0028825</ul>
                         </a>
                     </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
                 </ul>
             </li>
 
         </ul>
+
         <form class="d-flex" role="search" method="get" action="{% url 'home' %}">
             <input class="form-control me-2" type="search" placeholder="запрос.." aria-label="Search" name="search"
                    value="{{search_query}}">
