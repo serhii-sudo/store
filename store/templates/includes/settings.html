@@ -1,0 +1,49 @@
+{% load static %}
+
+{% if request.COOKIES.cookie_consent == "accepted" %}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+       aria-expanded="false">
+        Настройки
+    </a>
+    <ul class="dropdown-menu">
+        <!-- language -->
+        <li class="dropdown-header">language</li>
+        <li>
+            <a class="dropdown-item" href="#">
+                🇺🇦 uk
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="#">
+                🇷🇺 ru
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="#">
+                🇬🇧 en
+            </a>
+        </li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+        <!-- THEME -->
+        <li class="dropdown-header">theme</li>
+
+        <li>
+            <a class="dropdown-item" href="{% url 'set_theme' 'light' %}">
+                 🤍 light
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item" href="{% url 'set_theme' 'pink' %}">
+                🩷 pink
+            </a>
+        </li>
+    </ul>
+</li>
+{% endif %}

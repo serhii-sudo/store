@@ -28,10 +28,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "192.168.0.212", "https://a3f1-37-57-235-224.ngrok-free.app "]
+ALLOWED_HOSTS = ["*", "192.168.0.212", "https://32fc-37-57-235-224.ngrok-free.app"]
 
 # для разрешения авторизации, так как без этого сработает csrf-защита
-CSRF_TRUSTED_ORIGINS = ["https://a3f1-37-57-235-224.ngrok-free.app "]
+CSRF_TRUSTED_ORIGINS = ["https://32fc-37-57-235-224.ngrok-free.app"]
 
 # Application definition
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "orders",
     "social_django",
     "django.contrib.humanize",
+    "preferences",
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,8 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
-                "orders.context_processors.navbar_history",
+                "preferences.context_processors.navbar_history",
+                "preferences.context_processors.theme",
             ],
         },
     },
@@ -105,7 +107,6 @@ DATABASES = {
 }
 
 # Redis settings
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -115,9 +116,9 @@ CACHES = {
 }
 
 # Celery settings
-
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+TURBOSMS_API_KEY = os.getenv("TURBOSMS_API_KEY")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

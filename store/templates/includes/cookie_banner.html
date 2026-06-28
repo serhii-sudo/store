@@ -1,0 +1,33 @@
+{% if request.COOKIES.cookie_consent != "accepted" %}
+<div id="cookie-banner"
+     class="position-fixed bottom-0 start-0 end-0 bg-dark text-white p-3 shadow"
+     style="z-index: 9999;">
+
+    <div class="container d-flex justify-content-between align-items-center flex-wrap">
+
+        <div>
+            Мы используем cookies для сохранения настроек сайта
+            (тема оформления, язык и др.).
+        </div>
+
+        <div class="mt-2 mt-md-0">
+            <button class="btn btn-success btn-sm"
+                    onclick="acceptCookies()">
+                Принять
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function acceptCookies() {
+    fetch("{% url 'accept_cookies' %}")
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            }
+        });
+}
+</script>
+{% endif %}

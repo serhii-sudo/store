@@ -17,11 +17,13 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
     <link href="{% static 'vendor/css/footer.css' %}" rel="stylesheet" type="text/css" media="all"/>
     <link rel="stylesheet" href="{% static 'vendor/css/message.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/css/theme.css' %}">
 
     {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<!--Применение темы к телу шаблона, body/footer - не трогаем!-->
+<body class="theme-{{ theme }}">
 
 <nav class="navbar navbar-expand-lg bg-danger">
     {% include "includes/navbar.html" %}
@@ -50,5 +52,7 @@
 <!-- Footer -->
 {% include "includes/footer.html" %}
 
+<!--cookie_banner-->
+{% include "includes/cookie_banner.html" %}
 </body>
 </html>
