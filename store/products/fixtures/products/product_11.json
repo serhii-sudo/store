@@ -6,6 +6,7 @@
       "name": "Samsung Galaxy S24 Ultra 12/1T Yellow",
       "image": "image/samsung24ultr_titaniumyellow.jpg",
       "price": 52000,
+      "quantity": 15,
       "created_at": "2025-06-26T12:53:35.801Z",
       "categories": 2,
       "specifications": [

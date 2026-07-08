@@ -6,6 +6,7 @@
       "name": "Beats by Dr. Dre Studio Pro Deep Brown",
       "image": "image/beats-studio-pro-earth.webp",
       "price": 9900,
+      "quantity": 15,
       "created_at": "2025-06-22T20:17:55.437Z",
       "categories": 4,
       "specifications": [

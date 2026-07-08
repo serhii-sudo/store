@@ -6,6 +6,7 @@
       "name": "Apple AirPods Max Orange",
       "image": "image/Apple__AirPods__Max__Orange.jpeg",
       "price": 24700,
+      "quantity": 15,
       "created_at": "2025-06-22T20:13:22.120Z",
       "categories": 1,
       "specifications": [

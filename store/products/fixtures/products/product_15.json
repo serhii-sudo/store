@@ -6,6 +6,7 @@
       "name": "Harman/Kardon Onyx Studio 9 Black",
       "image": "image/harman_kardon_onyx_stydio.webp",
       "price": 9100,
+      "quantity": 15,
       "created_at": "2025-06-28T14:42:14.462Z",
       "categories": 5,
       "specifications": [

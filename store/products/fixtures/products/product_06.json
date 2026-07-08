@@ -6,6 +6,7 @@
       "name": "Apple iPhone 16 256GB Ultramarine",
       "image": "image/iphone_16_ultramarine.webp",
       "price": 34700,
+      "quantity": 15,
       "created_at": "2025-06-26T12:24:34.096Z",
       "categories": 1,
       "specifications": [

@@ -6,6 +6,7 @@
       "name": "Apple AirPods 2 White",
       "image": "image/airpods_2G.jpeg",
       "price": 3400,
+      "quantity": 15,
       "created_at": "2025-06-26T12:04:18.694Z",
       "categories": 1,
       "specifications": [

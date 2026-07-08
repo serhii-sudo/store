@@ -6,6 +6,7 @@
       "name": "Apple iPhone 14 128GB Yellow",
       "image": "image/iphone14_yellow.jpg",
       "price": 25000,
+      "quantity": 15,
       "created_at": "2025-06-26T12:32:45.078Z",
       "categories": 1,
       "specifications": [

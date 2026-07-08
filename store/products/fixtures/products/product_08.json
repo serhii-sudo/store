@@ -6,6 +6,7 @@
     "name": "Apple iPhone 15 128GB Pink",
     "image": "image/iphone15.jpg",
     "price": 31000,
+    "quantity": 15,
     "created_at": "2025-06-26T12:38:05.639Z",
     "categories": 1,
     "specifications": [

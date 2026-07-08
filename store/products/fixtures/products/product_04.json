@@ -6,6 +6,7 @@
       "name": "Beats by Dr. Dre Studio Pro Sandstone",
       "image": "image/beats-studio-pro-wireless-headphones-sandstone.jpeg",
       "price": 9900,
+      "quantity": 15,
       "created_at": "2025-06-22T20:20:17.159Z",
       "categories": 4,
       "specifications": [

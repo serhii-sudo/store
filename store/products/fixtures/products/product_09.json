@@ -6,6 +6,7 @@
     "name": "Apple iPhone 16e 128GB Black",
     "image": "image/iphone16_se.jpeg",
     "price": 29000,
+    "quantity": 15,
     "created_at": "2025-06-26T12:43:06.826Z",
     "categories": 1,
     "specifications": [

@@ -6,6 +6,7 @@
       "name": "Samsung Galaxy S25Ultra 12/512 Black",
       "image": "image/samsung_galaxys24ultra.jpg",
       "price": 57000,
+      "quantity": 15,
       "created_at": "2025-06-26T12:48:23.283Z",
       "categories": 2,
       "specifications": [
