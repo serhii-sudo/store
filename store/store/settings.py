@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "social_django",
     "django.contrib.humanize",
     "preferences",
+    "ai_gemini",
 ]
 
 MIDDLEWARE = [
@@ -61,12 +62,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-#  for fixtures loaddata, YAML format
-SERIALIZATION_MODULES = {
-    "yaml": "django.core.serializers.pyyaml",
-    "yml": "django.core.serializers.pyyaml",
-}
 
 ROOT_URLCONF = "store.urls"
 
@@ -139,11 +134,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 "GOOGLE AUTH"
-AUTHENTICATION_BACKENDS = ("social_core.backends.google.GoogleOAuth2", "django.contrib.auth.backends.ModelBackend")
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+)
 
-# Секретные ключи
+# Google keys
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL= os.getenv("GEMINI_MODEL")
 
 "GOOGLE PIPELINE"
 SOCIAL_AUTH_PIPELINE = (
@@ -190,7 +190,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 LIQPAY_PUBLIC_KEY = os.getenv("LIQPAY_PUBLIC_KEY")
 LIQPAY_PRIVATE_KEY = os.getenv("LIQPAY_PRIVATE_KEY")
 
-AUTH_USER_MODEL = "user.CustomUser"  # делаем класс базовым, заменяя наш предыдущий базовый класс юзер
+AUTH_USER_MODEL = (
+    "user.CustomUser"  # делаем класс базовым, заменяя наш предыдущий базовый класс юзер
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
