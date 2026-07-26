@@ -1,0 +1,59 @@
+#ai-toggle {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1050;
+}
+
+
+.ai-panel {
+    position: fixed;
+
+    right: 25px;
+    bottom: 212px;
+
+    width: 310px;
+    height: 450px;
+
+    background: white;
+    border-radius: 10px;
+
+    display: none;
+    flex-direction: column;
+
+    z-index: 1040;
+}
+
+
+.ai-panel.open {
+    display: flex;
+}
+
+
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.chat-window {
+    flex: 1;
+
+    padding: 15px;
+
+    overflow-y: auto;
+}
+
+
+.chat-input {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}

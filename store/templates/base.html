@@ -18,6 +18,8 @@
     <link href="{% static 'vendor/css/footer.css' %}" rel="stylesheet" type="text/css" media="all"/>
     <link rel="stylesheet" href="{% static 'vendor/css/message.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/css/ai_panel.css' %}">
+
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -52,7 +54,14 @@
 <!-- Footer -->
 {% include "includes/footer.html" %}
 
+
 <!--cookie_banner-->
 {% include "includes/cookie_banner.html" %}
+
+
+<!-- AI panel -->
+{% include "includes/ai_panel.html" %}
+
+<script src="{% static 'vendor/js/ai_panel.js' %}"></script>
 </body>
 </html>

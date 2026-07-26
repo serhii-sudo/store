@@ -1,0 +1,35 @@
+{% load static %}
+
+<button id="ai-toggle"
+        class="btn btn-light rounded-circle shadow">
+    <img
+        src="{% static 'gemini/gemini.svg' %}"
+        alt="Gemini AI"
+        width="30"
+        height="30">
+</button>
+
+
+<aside id="ai-panel" class="ai-panel shadow">
+
+    <div class="chat-header">
+        <h5>✦ Gemini AI</h5>
+    </div>
+
+    <div id="chat-window" class="chat-window"></div>
+
+    <div class="chat-input">
+        <input
+            id="chat-input"
+            class="form-control"
+            type="text"
+            placeholder="Введите вопрос..."
+        >
+
+        <button id="send-btn"
+                class="btn btn-success mt-2 w-100">
+            Отправить
+        </button>
+    </div>
+
+</aside>
