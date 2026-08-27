@@ -10,13 +10,17 @@
 </button>
 
 
-<aside id="ai-panel" class="ai-panel shadow">
+<aside id="ai-panel"
+       class="ai-panel shadow"
+       data-username="{{ request.user.username }}"
+>
 
     <div class="chat-header">
         <h5>✦ Gemini AI</h5>
     </div>
 
     <div id="chat-window" class="chat-window"></div>
+
 
     <div class="chat-input">
         <input
@@ -30,6 +34,11 @@
                 class="btn btn-success mt-2 w-100">
             Отправить
         </button>
+          <button id="clear-btn"
+                class="btn btn-danger mt-2 w-100">
+            Очистить чат
+        </button>
     </div>
+
 
 </aside>

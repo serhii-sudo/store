@@ -1,3 +1,4 @@
+/*Кнопка открытия Gemini*/
 #ai-toggle {
     position: fixed;
     right: 25px;
@@ -14,6 +15,7 @@
 }
 
 
+/*Основная панель Gemini*/
 .ai-panel {
     position: fixed;
 
@@ -33,27 +35,64 @@
 }
 
 
+/*Открытая панель Gemini*/
 .ai-panel.open {
     display: flex;
 }
 
 
+/*Заголовок панели*/
 .chat-header {
     padding: 15px;
     border-bottom: 1px solid #ddd;
 }
 
 
+/*Окно сообщений*/
 .chat-window {
     flex: 1;
 
     padding: 15px;
 
+    /* Если сообщений много — появляется вертикальная прокрутка */
     overflow-y: auto;
 }
 
 
+/*Область ввода сообщения*/
 .chat-input {
     padding: 15px;
     border-top: 1px solid #ddd;
+}
+
+
+/* Сообщение пользователя */
+.user-message {
+    background: #f3effa;
+}
+
+/* Сообщение Gemini */
+.ai-message {
+    background: #eef5ff;
+}
+
+/*Разделитель между диалогами*/
+.message-divider {
+    border: 0;
+    border-top: 1px solid #999;
+    margin: 15px 0;
+}
+
+
+/* Имя пользователя, кастомизация */
+.user-message .message-author {
+    font-weight: 700;
+    color: #6f42c1;
+}
+
+
+/* Имя Gemini, кастомизация */
+.ai-message .message-author {
+    font-weight: 700;
+    color: #0d6efd;
 }

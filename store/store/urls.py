@@ -29,6 +29,7 @@ urlpatterns = [
     path("orders/", include("orders.urls")),
     path("oauth/", include("social_django.urls", namespace="social")),
     path("preferences/", include("preferences.urls")),
+    path("ai_gemini/", include("ai_gemini.urls")),
 ]
 
 # скрипт для изображений медиафайлов
