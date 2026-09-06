@@ -8,6 +8,8 @@ let conversationId = localStorage.getItem("gemini_conversation_id");
 const toggle = document.getElementById("ai-toggle");
 const input = document.getElementById("chat-input");
 const send = document.getElementById("send-btn");
+const clear = document.getElementById("clear-btn");
+console.log("CLEAR BUTTON:", clear);
 const windowChat = document.getElementById("chat-window");
 
 
@@ -270,6 +272,53 @@ input.addEventListener(
 );
 
 
+// Удаления чата пользователя
+
+// Удаления чата пользователя
+
+async function clearChat() {
+    console.log("CLEAR CHAT");
+    console.log("conversationId:", conversationId);
+
+    if (!conversationId) {
+        console.log("conversationId отсутствует");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `/ai_gemini/chat/${conversationId}/`,
+            {
+                method: "DELETE",
+            }
+        );
+
+        console.log("DELETE STATUS:", response.status);
+
+        const data = await response.json();
+
+        console.log("DELETE RESPONSE:", data);
+
+        if (!response.ok) {
+            console.error("Ошибка очистки чата:", data);
+            return;
+        }
+
+        windowChat.innerHTML = "";
+
+        localStorage.removeItem("gemini_conversation_id");
+
+        conversationId = null;
+
+    } catch (error) {
+        console.error("Ошибка запроса:", error);
+    }
+}
+
+clear.addEventListener("click", () => {
+    console.log("CLEAR BUTTON CLICKED");
+    clearChat();
+});
 // Start
 
 loadChatHistory();

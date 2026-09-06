@@ -111,6 +111,31 @@ class GeminiChatView(View):
             json_dumps_params={"ensure_ascii": False},
         )
 
+    def delete(self, request, conversation_id=None):
+        print("DELETE METHOD CALLED")
+        if not request.user.is_authenticated:
+            return JsonResponse(
+                {"error": "Authentication required"},
+                status=401,
+            )
+        
+        if not conversation_id:
+            return JsonResponse(
+                {"error": "Conversation ID is required"},
+                status=400,
+            )
+
+        GeminiMessage.objects.filter(
+            user=request.user,
+            conversation_id=conversation_id,
+        ).delete()
+
+        return JsonResponse(
+            {
+                "message": "Chat history successfully deleted!",
+            }
+        )
+
     # json_dumps_params={"ensure_ascii": False} -> относится к тому, как Python сериализует данные в JSON
     # Unicode-символы могут быть представлены escape-последовательностями.
     # Например, русский текст может выглядеть примерно так: \u041f\u0440\u0438\u0432\u0435\u0442
