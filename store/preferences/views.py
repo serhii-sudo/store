@@ -4,9 +4,12 @@ from django.shortcuts import redirect
 
 
 def set_theme(request, theme):
+    print("THEME:", theme)
+    print("CONSENT:", request.COOKIES.get("cookie_consent"))
+
     response = redirect(request.META.get("HTTP_REFERER", "/"))
 
-    if theme not in ("light", "pink"):
+    if theme not in ("light", "pink", "grey"):
         theme = "light"
 
         # Сохраняем тему только после согласия
