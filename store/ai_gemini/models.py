@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from pgvector.django import VectorField
 
 from store import settings
 
@@ -33,3 +34,26 @@ class GeminiMessage(models.Model):
 
     def __str__(self):
         return f"{self.user.username} | {self.role} | {self.content[:50]}"
+
+
+# RAG-model будет работать поверх PostgreSQL,
+# а pgvector расширит PostgreSQL возможностью хранить векторы и искать по смыслу.
+class ProductEmbedding(models.Model):
+    product = models.OneToOneField(
+        "products.Product",
+        on_delete=models.CASCADE,
+        related_name="embedding_data",
+    )
+
+    content = models.TextField()
+
+    embedding = VectorField(
+        dimensions=768,
+        null=True,
+        blank=True,
+    )
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Embedding: {self.product.name}"
