@@ -32,6 +32,7 @@ Django==5.1.1
 django-allauth==65.9.0
 django-behave==0.1.6
 django-nose==1.4.7
+django-prometheus==2.5.0
 django-redis==6.0.0
 django-telegram-login==0.2.3
 fonttools==4.63.0
@@ -56,8 +57,10 @@ packaging==25.0
 parse==1.20.2
 parse_type==0.6.4
 pathspec==0.12.1
+pgvector==0.5.1
 pillow==10.4.0
 platformdirs==4.3.8
+prometheus_client==0.26.0
 prompt_toolkit==3.0.52
 propcache==0.3.1
 psycopg2-binary==2.9.10
