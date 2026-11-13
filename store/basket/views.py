@@ -9,9 +9,13 @@ from products.models import Product
 
 
 class AddInBasket(View):
+    """Добавление товаров в корзину."""
+
     def post(self, request, product_id):
         product = get_object_or_404(Product, id=product_id)
-        basket_item, created = Basket.objects.get_or_create(user=request.user, product=product)
+        basket_item, created = Basket.objects.get_or_create(
+            user=request.user, product=product
+        )
 
         # лаконичное решение:
         basket_item.quantity = basket_item.quantity + 1 if not created else 1
@@ -22,16 +26,22 @@ class AddInBasket(View):
 
 
 class BasketView(View):
+    """Просмотр содержимого в корзине."""
+
     template_patch = "basket/user_basket.html"
 
     def get(self, request):
-        basket_items = Basket.objects.filter(user=request.user)  # посмотреть содержимое корзины, продукция юзера
+        basket_items = Basket.objects.filter(
+            user=request.user
+        )  # посмотреть содержимое корзины, продукция юзера
         total_sum = sum(item.total_price() for item in basket_items)
         result_of_all_price = [item.total_price() for item in basket_items]
 
         items_with_total = []
         for item in basket_items:
-            items_with_total.append({"item": item, "total_price": item.total_price()})  # сам объект корзины
+            items_with_total.append(
+                {"item": item, "total_price": item.total_price()}
+            )  # сам объект корзины
 
         for item in basket_items:
             print(item.product.price)
@@ -55,6 +65,8 @@ class BasketView(View):
 
 
 class DelBasket(View):
+    """Удаление содержимого корзины."""
+
     def post(self, request, id):  # удаление товара из корзины
         basket = Basket.objects.get(id=id)
         basket.delete()

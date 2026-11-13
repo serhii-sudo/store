@@ -28,9 +28,7 @@ class Migration(migrations.Migration):
                 ("content", models.TextField()),
                 (
                     "embedding",
-                    pgvector.django.vector.VectorField(
-                        blank=True, dimensions=768, null=True
-                    ),
+                    pgvector.django.vector.VectorField(blank=True, dimensions=768, null=True),
                 ),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 (

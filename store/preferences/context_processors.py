@@ -8,6 +8,4 @@ def navbar_history(request):
 
 
 def theme(request):
-    return {
-        "theme": request.COOKIES.get("theme", "light")
-    }
+    return {"theme": request.COOKIES.get("theme", "light")}

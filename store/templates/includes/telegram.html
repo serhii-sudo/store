@@ -1,0 +1,24 @@
+{% if user.is_authenticated %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            Telegram
+        </a>
+
+        <ul class="dropdown-menu">
+            {% if user.telegram_id %}
+                <li>
+                    <span class="dropdown-item text-success">
+                        ✓ Telegram привязан
+                    </span>
+                </li>
+            {% else %}
+                <li>
+                    <a class="dropdown-item" href="{% url 'telegram_link_start' %}">
+                        Привязать Telegram
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </li>
+{% endif %}

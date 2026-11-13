@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ai_gemini.models import GeminiMessage
+from ai_gemini.models import GeminiMessage, ProductEmbedding
 
 
 @admin.register(GeminiMessage)
@@ -22,3 +22,13 @@ class GeminiMessageAdmin(admin.ModelAdmin):
     @admin.display(description="content")
     def short_content(self, obj):
         return obj.content[:300]
+
+
+@admin.register(ProductEmbedding)
+class ProductEmbeddingAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "product",
+        "content",
+        "updated_at",
+    )

@@ -5,12 +5,18 @@ from user.models import CustomUser
 
 
 class Basket(models.Model):
+    """Модель корзины."""
+
     user = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE)  # удалился пользователь - удалилась его корзины!
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)  # удалился продукт - удалилась корзина!
     quantity = models.SmallIntegerField(default=0)  # изначальное количество товаров в корзине по умолчанию равно 0
     timestamp = models.DateTimeField(
         auto_now_add=True
     )  # добавление автоматически даты и времени, когда был добавлен товар
+
+    class Meta:
+        verbose_name = "Basket"
+        verbose_name_plural = "Basket"
 
     def __str__(self):
         return (

@@ -1,3 +1,4 @@
+/*Обработка полей формы заказа*/
 .checkout-wrapper {
     display: flex;
     justify-content: space-between;
@@ -7,7 +8,51 @@
     margin-bottom: 40px;
 }
 
-.left-block{
+.left-block {
     flex: 1;
-    max-width: 470px;
+    max-width: 555px;
+}
+
+
+/*Обработка кнопок*/
+
+/* Общие правила для обеих кнопок, чтобы они были строго одной ширины */
+.btn-raiffeisen,
+.btn-liqpay-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+
+    /* Выравнивание внутренних отступов и шрифта */
+    padding: 12px 24px;
+    font-size: 16px;
+    height: 48px; /* Фиксированная высота для идеальной симметрии */
+    border-radius: 0; /* Прямые углы без радиуса */
+}
+
+/* Стили Райффайзен */
+.btn-raiffeisen {
+    background-color: #feec00;
+    color: #000000;
+    border: 1px solid #feec00;
+}
+
+.btn-raiffeisen:hover {
+    background-color: #e6d500;
+    border-color: #e6d500;
+    color: #000000;
+}
+
+/* Стили LiqPay */
+.btn-liqpay-dark {
+    background-color: #212121;
+    color: #ffffff !important;
+    border: 1px solid #2d2d2d;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-liqpay-dark:hover {
+    background-color: #2a2a2a;
+    border-color: #3a3a3a;
 }

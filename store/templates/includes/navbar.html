@@ -7,7 +7,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            {% include 'includes/settings.html' %}
+            {% include 'includes/cookie_settings.html' %}
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Выйти</a>
@@ -56,7 +56,7 @@
                 </ul>
             </li>
             {% else %}
-            <li class="nav-item">
+            <li class="nav-item dropdown">
                 <a class="nav-link active" aria-current="page" href="{% url 'registration' %}">Регистрация</a>
             </li>
             <li class="nav-item">
@@ -92,7 +92,8 @@
                     </li>
                 </ul>
             </li>
-
+            <!-- привязка telegram -->
+            {% include 'includes/telegram.html' %}
         </ul>
 
         <form class="d-flex" role="search" method="get" action="{% url 'home' %}">
@@ -104,3 +105,4 @@
     </div>
 
 </div>
+

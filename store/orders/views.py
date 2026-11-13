@@ -14,6 +14,8 @@ from django.shortcuts import redirect
 
 
 class OrderUser(View):
+    """Обработка корзины покупателя."""
+
     def post(self, request):
         print(request.POST)
         form = OrderForm(request.POST)
@@ -46,8 +48,9 @@ class OrderUser(View):
         return render(request, "basket/user_basket.html", {"form": form})
 
 
-# pdf загрузка истории покупок пользователя
 class OrderHistoryPdf(View):
+    """PDF, загрузка истории покупок пользователя."""
+
     def get(self, request):
         orders = Order.objects.filter(initiator=request.user).order_by("-created")
 

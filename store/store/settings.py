@@ -28,10 +28,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "192.168.0.212", "https://32fc-37-57-235-224.ngrok-free.app"]
+ALLOWED_HOSTS = ["*", "192.168.0.212", "https://f120-37-57-235-224.ngrok-free.app"]
 
 # для разрешения авторизации, так как без этого сработает csrf-защита
-CSRF_TRUSTED_ORIGINS = ["https://32fc-37-57-235-224.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://f120-37-57-235-224.ngrok-free.app"]
 
 # Application definition
 
@@ -51,9 +51,11 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "preferences",
     "ai_gemini",
+    "django_prometheus",  # for metrics
 ]
 
 MIDDLEWARE = [
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -61,7 +63,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
+
+"""Prometheus -> определяем в начале и конце списка MIDDLEWARE,
+       для измерения всего пути запроса через Django"""
+
 
 ROOT_URLCONF = "store.urls"
 
@@ -143,7 +150,7 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL= os.getenv("GEMINI_MODEL")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL")
 
 "GOOGLE PIPELINE"
 SOCIAL_AUTH_PIPELINE = (
@@ -157,6 +164,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
+    "user.pipeline.apply_remember_me",  #  подключение функции "remember me"
 )
 
 # разрешает автоматическую ассоциацию social account по email
@@ -164,6 +172,9 @@ SOCIAL_AUTH_ASSOCIATE_BY_EMAIL = True
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+# Время жизни сессии при включённом Remember Me (30 дней)
+REMEMBER_ME_DURATION = 60 * 60 * 24 * 30
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -190,9 +201,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 LIQPAY_PUBLIC_KEY = os.getenv("LIQPAY_PUBLIC_KEY")
 LIQPAY_PRIVATE_KEY = os.getenv("LIQPAY_PRIVATE_KEY")
 
-AUTH_USER_MODEL = (
-    "user.CustomUser"  # делаем класс базовым, заменяя наш предыдущий базовый класс юзер
-)
+AUTH_USER_MODEL = "user.CustomUser"  # делаем класс базовым, заменяя наш предыдущий базовый класс юзер
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

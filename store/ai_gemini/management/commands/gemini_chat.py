@@ -19,7 +19,7 @@ class Command(BaseCommand):
         while True:
             prompt = input("Вы: ")
 
-            if prompt.lower() == "exit":
+            if prompt.strip().lower() == "exit":
                 break
 
             print(f"\nGemini: {ai.generate(prompt)}\n")

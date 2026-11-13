@@ -22,11 +22,8 @@ def set_theme(request, theme):
 
     return response
 
+
 def accept_cookies(request):
     response = JsonResponse({"status": "ok"})
-    response.set_cookie(
-        "cookie_consent",
-        "accepted",
-        max_age=60 * 60 * 24 * 365,
-    )
+    response.set_cookie("cookie_consent", "accepted", max_age=60 * 60 * 24 * 12)
     return response

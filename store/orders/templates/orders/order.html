@@ -1,63 +1,79 @@
 <div class="order-form">
 
     <div class="card">
+        <form method="post" action="{% url 'create_order' %}">
+            {% csrf_token %}
 
-        <div class="card-body">
-            <b>Заполните форму получение товара</b>
+            <div class="card-body">
+                <b>Заполните форму получение товара</b>
 
-            <div class="mb-2">
-                <label for="{{ form.username.id_for_label }}">username</label>
-                {{form.username}}
-            </div>
+                <div class="mb-2">
+                    <label for="{{ form.username.id_for_label }}">username</label>
+                    {{form.username}}
+                </div>
 
-            <div class="mb-2">
-                <label for="{{ form.email.id_for_label }}">email</label>
-                {{ form.email }}
-            </div>
+                <div class="mb-2">
+                    <label for="{{ form.email.id_for_label }}">email</label>
+                    {{ form.email }}
+                </div>
 
-            <div class="mb-2">
-                <label for="{{ form.first_name.id_for_label }}">first name</label>
-                {{ form.first_name }}
-            </div>
+                <div class="mb-2">
+                    <label for="{{ form.first_name.id_for_label }}">first name</label>
+                    {{ form.first_name }}
+                </div>
 
-            <div class="mb-2">
-                <label>last name</label>
-                <label for="{{ form.last_name.id_for_label }}"></label>
-                {{ form.last_name }}
-            </div>
+                <div class="mb-2">
+                    <label>last name</label>
+                    <label for="{{ form.last_name.id_for_label }}"></label>
+                    {{ form.last_name }}
+                </div>
 
-            <div class="mb-2">
-                <label for="{{ form.address.id_for_label }}">address</label>
-                {{ form.address }}
-            </div>
+                <div class="mb-2">
+                    <label for="{{ form.address.id_for_label }}">address</label>
+                    {{ form.address }}
+                </div>
 
-            <div class="mb-2">
-                <label>mobile</label>
-                <div class="input-group w-100">
-                    <span class="input-group-text">+380</span>
-                    <!--                    применяем ручной input чтобы не искажать 1/n часть поля в котором префикс +380-->
-                    <input type="text" name="mobile" class="form-control" placeholder="678883323">
+                <div class="mb-2">
+                    <label>mobile</label>
+                    <div class="input-group w-100">
+                        <span class="input-group-text">+380</span>
+                        <!--                    применяем ручной input чтобы не искажать 1/n часть поля в котором префикс +380-->
+                        <input type="text" name="mobile" class="form-control" placeholder="678883323">
+                    </div>
+                </div>
+
+                <div class="text-danger mt-1">
+                    {{ form.mobile.errors }}
+                </div>
+
+                <div class="form-check mb-3">
+                    <input type="checkbox">
+                    <label class="form-check-label">
+                        save details for fast payments
+                    </label>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <button type="submit" class="btn btn-liqpay-dark w-100 w-100 mb-2">
+                        <img
+                                src="https://www.liqpay.ua/logo_liqpay.svg"
+                                alt="LiqPay"
+                                class="payment-logo" width="100"
+                        >
+                    </button>
+
+                    <button type="button" class="btn btn-raiffeisen w-100">
+                        <img
+                                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Raiffeisen_Bank_2023_logo.svg"
+                                alt="Raiffeisen Bank"
+                                class="payment-logo" width="100"
+                        >
+                    </button>
                 </div>
             </div>
-
-            <div class="text-danger mt-1">
-                {{ form.mobile.errors }}
-            </div>
-
-            <div class="form-check mb-3">
-                <input type="checkbox">
-                <label class="form-check-label">
-                    save details for fast payments
-                </label>
-            </div>
-
-            <div class="d-flex">
-                <button class="btn btn-success mr-2 w-100">Pay with LiqPay</button>
-            </div>
-
-        </div>
+        </form>
 
     </div>
-
 </div>
+
 

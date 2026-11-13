@@ -3,6 +3,8 @@ from user.models import CustomUser
 
 
 class Order(models.Model):
+    """Модель описывающая форму оформления заказа."""
+
     email = models.EmailField(max_length=150)
     username = models.CharField(max_length=150)
     first_name = models.CharField(max_length=150)
@@ -21,8 +23,9 @@ class Order(models.Model):
         ordering = ["-created"]
 
 
-# Статус оплаты
 class PaymentStatus(models.TextChoices):
+    """Варианты статуса оплаты."""
+
     PENDING = "pending", "Pending"
     PAID = "paid", "Paid"
     FAILED = "failed", "Failed"
@@ -36,10 +39,13 @@ class PaymentStatus(models.TextChoices):
 
 class PaymentProvider(models.TextChoices):
     LIQPAY = "liqpay", "LiqPay"
+    RAIFFEISEN = "raiffeisen", "Raiffeisen"
 
 
 # LiqPay
 class Payment(models.Model):
+    """Модель, работа с транзакциями"""
+
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payments")
     provider = models.CharField(max_length=20, choices=PaymentProvider, default=PaymentProvider.LIQPAY)
     payment_id = models.CharField(max_length=64, unique=True)
@@ -51,6 +57,8 @@ class Payment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        verbose_name = "Payment"
+        verbose_name_plural = "Payments"
 
     def __str__(self):
         return f"{self.order.id} | {self.amount} UAH | {self.status}"

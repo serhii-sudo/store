@@ -23,6 +23,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("django_prometheus.urls")),
     path("", include("products.urls")),
     path("basket/", include("basket.urls")),
     path("user/", include("user.urls")),

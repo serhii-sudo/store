@@ -30,9 +30,7 @@ class Migration(migrations.Migration):
                 ("conversation_id", models.UUIDField(default=uuid.uuid4)),
                 (
                     "role",
-                    models.CharField(
-                        choices=[("user", "User"), ("gemini", "Gemini")], max_length=20
-                    ),
+                    models.CharField(choices=[("user", "User"), ("gemini", "Gemini")], max_length=20),
                 ),
                 ("content", models.TextField()),
                 ("created_at", models.DateTimeField(auto_now_add=True)),

@@ -1,83 +1,135 @@
+# ruff: noqa: E402
 import os
 from datetime import timedelta
 
+from telegram.constants import ParseMode
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store.settings")
+
 import django
 
-from asgiref.sync import sync_to_async
-from django.utils import timezone
-from telegram.ext import ApplicationBuilder, CommandHandler
-
-# ------------------------
-# Django setup (ОБЯЗАТЕЛЬНО ВВЕРХУ)
-# ------------------------
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store.settings")
 django.setup()
 
-from user.models import TelegramAuth, CustomUser
+from asgiref.sync import sync_to_async
+from django.db import transaction
+from django.utils import timezone
+
+from telegram.ext import ApplicationBuilder, CommandHandler
+
+from user.models import CustomUser, TelegramAuthPurpose, TelegramAuth
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 
-# ------------------------
-# /start handler
-# ------------------------
+@transaction.atomic
+def process_telegram_code(code, telegram_id):
+    obj = TelegramAuth.objects.select_for_update(of=("self",)).filter(code=code).first()
+
+    if not obj:
+        return "not_found"
+
+    if obj.is_used:
+        return "already_used"
+
+    if timezone.now() - obj.created_at > timedelta(minutes=1):
+        return "expired"
+
+    # Сценарий 1: привязка Telegram к существующему аккаунту
+    if obj.purpose == TelegramAuthPurpose.LINK:
+        if not obj.user_id:
+            return "user_not_found"
+
+        user = obj.user
+
+        # Проверяем, не привязан ли к аккаунту другой Telegram
+        if user.telegram_id and user.telegram_id != telegram_id:
+            return "account_already_linked"
+
+        # Проверяем, не принадлежит ли Telegram ID другому аккаунту
+        if CustomUser.objects.filter(telegram_id=telegram_id).exclude(pk=user.pk).exists():
+            return "telegram_already_linked"
+
+        user.telegram_id = telegram_id
+        user.save(update_fields=["telegram_id"])
+
+    # Вход через Telegram
+    elif obj.purpose == TelegramAuthPurpose.LOGIN:
+        user = CustomUser.objects.filter(telegram_id=telegram_id).first()
+
+        if not user:
+            return "telegram_not_linked"
+
+    else:
+        return "unknown_purpose"
+
+    # Отмечаем код использованным
+    obj.telegram_id = telegram_id
+    obj.is_used = True
+    obj.save(update_fields=["telegram_id", "is_used"])
+
+    return "success"
+
+
 async def start(update, context):
     text = update.message.text
     telegram_id = update.message.from_user.id
 
-    print("RAW TEXT:", text)
-
     parts = text.split()
-    print("parts:", parts)
 
     if len(parts) < 2:
         await update.message.reply_text("Нет кода")
         return
 
     code = parts[1].strip()
-    print("code:", code)
 
-    # 1. ищем код
-    obj = await sync_to_async(TelegramAuth.objects.filter(code=code).first)()
-
-    if not obj:
-        await update.message.reply_text("Код не найден")
-        return
-
-    if timezone.now() - obj.created_at > timedelta(minutes=1):
-        await update.message.reply_text(
-            "Код устарел!!! Вернись на сайт, обновите страницу для генерации нового кода" " и попробуй снова."
-        )
-        return
-
-    # 2. помечаем использованным
-    obj.telegram_id = telegram_id
-    obj.is_used = True
-    await sync_to_async(obj.save)()
-
-    # 3. создаём пользователя
-    user, created = await sync_to_async(CustomUser.objects.get_or_create)(
-        telegram_id=telegram_id, defaults={"username": f"tg_{telegram_id}"}
+    result = await sync_to_async(process_telegram_code)(
+        code,
+        telegram_id,
     )
 
-    # 4. сохраняем
-    user.telegram_id = telegram_id
-    await sync_to_async(user.save)()
+    if result == "not_found":
+        await update.message.reply_text("🔴 Код не найден")
 
-    await update.message.reply_text("Вход подтвержден! Вернитесь на сайт")
+    elif result == "already_used":
+        await update.message.reply_text("🔴 Этот код уже использован!!!")
+
+    elif result == "expired":
+        await update.message.reply_text(
+            "🟡 Код устарел. Вернитесь на сайт и получите новый.\n\n" "⮕  http://127.0.0.1:8000/"
+        )
+
+    elif result == "user_not_found":
+        await update.message.reply_text("🟡 Пользователь для привязки не найден")
+
+    elif result == "account_already_linked":
+        await update.message.reply_text("🟡 К аккаунту уже привязан другой Telegram!")
+
+    elif result == "telegram_not_linked":
+        await update.message.reply_text(
+            "🟡 Этот Telegram ещё не привязан к аккаунту.\n\n"
+            "Перейдите на сайт, зарегистрируйтесь или войдите в существующий аккаунт, "
+            "а затем привяжите Telegram в личном кабинете.\n\n"
+            "После этого вы сможете использовать Telegram, для входа на сайт.\n\n"
+            "⮕  http://127.0.0.1:8000/"
+        )
+
+    elif result == "telegram_already_linked":
+        await update.message.reply_text("🟡 Этот Telegram уже привязан к другому аккаунту!")
+
+    elif result == "unknown_purpose":
+        await update.message.reply_text("🔴 Неизвестный тип операции!")
+
+    elif result == "success":
+        await update.message.reply_text(
+            "<b>🟢 Операция успешно подтверждена!</b>\n\n"
+            "Теперь вернитесь на сайт:\n"
+            "⮕ <a href='http://127.0.0.1:8000/'>Перейти на сайт</a>",
+            parse_mode=ParseMode.HTML,
+        )
 
 
-# ------------------------
-# async def handle_message(update, context):
-#     await update.message.reply_text("Отправь /start + код")
-
-
-# ------------------------
-# bot init
-# ------------------------
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
-# app.add_handler(MessageHandler(filters.TEXT, handle_message))
 
 app.run_polling()

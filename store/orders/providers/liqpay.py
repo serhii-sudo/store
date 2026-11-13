@@ -35,8 +35,8 @@ def create_payment(request, order_id):
         "description": f"Order # {order.pk} | {order.initiator.username}",
         "order_id": payment.payment_id,
         # изменяем каждый раз здесь, и в settings!
-        "result_url": "https://32fc-37-57-235-224.ngrok-free.app",
-        "server_url": "https://32fc-37-57-235-224.ngrok-free.app/orders/payment/callback/",
+        "result_url": "https://f120-37-57-235-224.ngrok-free.app",
+        "server_url": "https://f120-37-57-235-224.ngrok-free.app/orders/payment/callback/",
     }
 
     json_data = json.dumps(data)

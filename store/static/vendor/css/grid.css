@@ -1,59 +1,147 @@
+/* ===== Сетка каталога ===== */
+
 .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-        column-gap: 15px;     /* между колонами */
-        row-gap: 15px;       /* между рядами */
-        justify-content: center;
-        padding-bottom: 50px;   /* отступ снизу под пагинацию */
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 15px;
+    row-gap: 15px;
+    padding-bottom: 50px;
+}
+
+/* ===== Карточка товара ===== */
+
+.grid-container > .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    min-width: 0;
+    height: 450px;
+    box-sizing: border-box;
+
+    padding-top: 30px;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    overflow: hidden;
+
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Ссылка на страницу товара */
+
+.grid-container > .card > a {
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Изображение товара */
+
+.grid-container > .card img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    box-sizing: border-box;
+    object-fit: contain;
+    background-color: #f9f9f9;
+}
+
+/* ===== Содержимое карточки ===== */
+
+.grid-container .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    min-width: 0;
+
+    padding: 10px;
+}
+
+.grid-container .card-title {
+    margin-bottom: 9px;
+
+    font-size: 15px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.grid-container .card-description {
+    margin-bottom: 20px;
+
+    font-size: 13px;
+    line-height: 1.2em;
+    color: #666;
+
+    max-height: 2.4em;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.grid-container .card-price {
+    font-size: 19px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* ===== Планшеты ===== */
+
+@media (min-width: 577px) and (max-width: 991px) {
+    .grid-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
     }
 
-    .card {
-        padding-top: 30px;
-        width: 310px;
-        height: 450px; /* увеличенная высота карточки */
-        border: 1px solid #ddd;
-        border-radius: 0px;
-        overflow: hidden;
-        box-shadow: 0 2px 1px rgba(0,0,0,0.1);
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+    .grid-container > .card {
+        height: 420px;
     }
 
-    .card img {
-        width: 100%;
-        height: 200px;
-        object-fit: contain; /* ВАЖНО: чтобы изображение не обрезалось */
-        background-color: #f9f9f9;
+    .grid-container > .card img {
+        height: 170px;
+    }
+}
+
+/* ===== Мобильные телефоны ===== */
+
+@media (max-width: 576px) {
+    .grid-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
     }
 
-    .card-content {
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        flex-grow: 1;
+    .grid-container > .card {
+        height: 350px;
+        padding-top: 10px;
     }
 
-    .card-title {
-        font-size: 15px;
-        font-weight: bold;
-        margin-bottom: 9px;
+    .grid-container > .card img {
+        height: 120px;
     }
 
-    .card-description {
+    .grid-container .card-content {
+        padding: 8px;
+    }
+
+    .grid-container .card-title {
+        margin-bottom: 6px;
         font-size: 13px;
-        color: #666;
-        margin-bottom: 40px;
-        line-height: 1.2em;
-        max-height: 2.4em;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
-    .card-price {
-        font-size: 19px;
-        color: #000;
-        font-weight: bold;
+    .grid-container .card-description {
+        margin-bottom: 10px;
+        font-size: 11px;
     }
+
+    .grid-container .card-price {
+        font-size: 15px;
+    }
+
+    .grid-container .card-content .btn {
+        width: 100%;
+        padding: 6px 2px;
+        font-size: 11px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}
